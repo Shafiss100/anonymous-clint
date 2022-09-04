@@ -1,0 +1,8 @@
+.scroll{
+    background-color: rgb(61, 68, 85);
+    /* overflow: scroll; */
+    overflow-x: hidden;
+    
+}
+
+
