@@ -8,7 +8,7 @@ import SignUp from "./Component/Authentication/SignUp";
 
 function App() {
   return (
-    <div className="">
+    <div className="bg-black">
       <Routes>
         <Route
           path="/"

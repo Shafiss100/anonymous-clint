@@ -6,6 +6,9 @@ function RequireAuth({ children }) {
   const [user, loading, error] = useAuthState(auth);
   let location = useLocation();
 
+  if (loading) {
+    return <p>Plese wait</p>;
+  }
   if (!user) {
     // Redirect them to the /login page, but save the current location they were
     // trying to go to when they were redirected. This allows us to send them
@@ -13,9 +16,7 @@ function RequireAuth({ children }) {
     // than dropping them off on the home page.
     return <Navigate to="/login" state={{ from: location }} replace />;
     }
-    if (loading) {
-        return(<p>Plese wait</p>)
-    }
+    
 
   return children;
 }

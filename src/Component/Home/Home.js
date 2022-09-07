@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
 import icon from "../Image/anonymous.jpg";
+import { signOut } from "firebase/auth";
+import auth from "../Authentication/Firebase.init";
 
 const Home = () => {
   const [userText, setUserData] = useState([]);
@@ -34,6 +36,11 @@ const Home = () => {
       });
   }, [userText]);
 
+// sign out 
+  const signout = () => {
+    signOut(auth);
+  }
+
   return (
     <div className="bg-black ">
       {/* {userName === null && (
@@ -43,15 +50,20 @@ const Home = () => {
           value={"SEND"}
         />
       )} */}
-      <div className="flex mx-5 mb-5">
-        <img
-          src={icon}
-          className="lg:h-20 h-10 w-10 lg:w-20 rounded-[50%] border-white border-4"
-          alt=""
-        />
-        <h1 className="ml-5 font-sans font-bold lg:text-5xl text-3xl text-white ">
-          Be a anonymous
-        </h1>
+      <div className="flex ">
+        <div className="flex mx-5 mb-5">
+          <img
+            src={icon}
+            className="lg:h-20 h-10 w-10 lg:w-20 rounded-[50%] border-white border-4"
+            alt=""
+          />
+          <h1 className="ml-5 font-sans font-bold lg:text-5xl text-3xl text-white ">
+            Be a anonymous
+          </h1>
+        </div>
+        <div className="ml-auto m-3">
+          <button onClick={signout} className="text-white btn btn-sm">sign out</button>
+        </div>
       </div>
       <div className=" h-[600px] lg:mx-10 mx-3 p-1 rounded-xl scroll">
         {userText.map((text, index) => (

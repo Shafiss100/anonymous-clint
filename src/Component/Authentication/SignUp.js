@@ -9,41 +9,32 @@ import auth from "./Firebase.init";
 
 const SignUp = () => {
   const [updateProfile, updating, upError] = useUpdateProfile(auth);
-  const navigare = useNavigate();
+  const navigate = useNavigate();
   const [createUserWithEmailAndPassword, euser, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
   const [user, userLoading, userError] = useAuthState(auth);
 
-  const signup = (event) => {
+  const signup = async (event) => {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
     const displayName = event.target.name.value;
-    createUserWithEmailAndPassword(email, password)
-      .then(async () => {
-        await updateProfile({ displayName });
-        // send user name and email to the database ;
-
-        fetch("http://localhost:5000/user", {
-          method: "POST",
-          body: JSON.stringify({
-            displayName: displayName,
-            email: email,
-          }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            navigare("/");
-          });
-      })
-      .catch((error) => {});
+    await createUserWithEmailAndPassword(email, password);
+    await updateProfile({ displayName });
+    await  fetch("http://localhost:5000/user", {
+      method: "POST",
+      body: JSON.stringify({
+        displayName: displayName,
+        email: email,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+    navigate("/")
   };
   return (
-    <form onSubmit={signup}>
+    <form className="bg-slate-500" onSubmit={signup}>
       <div className="hero min-h-screen login-page">
         <div>
           <div className="card min-w-lg shadow-2xl ">
