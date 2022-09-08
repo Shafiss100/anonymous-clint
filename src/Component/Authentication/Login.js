@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import "./Login.css";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   useAuthState,
@@ -15,67 +14,25 @@ const Login = () => {
     useSignInWithEmailAndPassword(auth);
   const [user, userLoading, userError] = useAuthState(auth);
 
-  // if (user) {
-  //   fetch("http://localhost:5000/user", {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       userName: user.displayName,
-  //       email: user.email,
-  //     }),
-  //     headers: {
-  //       "Content-type": "application/json; charset=UTF-8",
-  //     },
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       navigate("/");
-  //     });
-  // }
-
-  // send user name and email to the database ;
-  // if (user) {
-  //   fetch('http://localhost:5000/user', {
-  //     method: 'POST',
-  //     body: JSON.stringify({
-  //       userName: user.displayName,
-  //       email: user.email,
-  //     }),
-  //     headers: {
-  //       'Content-type': 'application/json; charset=UTF-8',
-  //     },
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data)
-  //       navigate("/")
-  //       console.log("done")
-  //     });
-
-  // }
-
   // login with google (react firebase hoook)
-  const glogin = async() => {
+  const glogin = async () => {
     await signInWithGoogle()
       .then(async () => {
-          console.log(user);
-          fetch("http://localhost:5000/user", {
-            method: "POST",
-            body: JSON.stringify({
-              displayName: user.displayName,
-              email: user.email,
-            }),
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-            },
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              console.log(data);
-              navigate("/");
-            });
-        }
-      )
+        fetch("https://ancient-wildwood-82819.herokuapp.com/user", {
+          method: "POST",
+          body: JSON.stringify({
+            displayName: user.displayName,
+            email: user.email,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            navigate("/");
+          });
+      })
       .catch((error) => {
         console.log(error.message);
         navigate("/");
@@ -83,11 +40,11 @@ const Login = () => {
   };
 
   // login from the form (email and password)
-  const elogin = async(event) => {
+  const elogin = async (event) => {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
-    await signInWithEmailAndPassword(email, password)
+    await signInWithEmailAndPassword(email, password);
     navigate("/");
   };
   return (

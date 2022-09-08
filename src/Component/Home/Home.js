@@ -3,14 +3,28 @@ import "./Home.css";
 import icon from "../Image/anonymous.jpg";
 import { signOut } from "firebase/auth";
 import auth from "../Authentication/Firebase.init";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [userText, setUserData] = useState([]);
   const [userName, setUserName] = useState(null);
+  
+  // var input = document.getElementById("input");
+  // input.addEventListener("Enter", function (event) {
+  //   console.log("hi")
+  // })
+  const keys = (event) => {
+    if (event.key === "Enter") {
+      document.getElementById("submit").click()
+    }
+  }
+
+
+
   const post = (event) => {
     event.preventDefault();
     const text = event.target.text.value;
-    fetch("http://localhost:5000/post", {
+    fetch("https://ancient-wildwood-82819.herokuapp.com/post", {
       method: "POST",
       body: JSON.stringify({
         text: text,
@@ -29,17 +43,17 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/alltext")
+    fetch("https://ancient-wildwood-82819.herokuapp.com/alltext")
       .then((response) => response.json())
       .then((data) => {
         setUserData(data);
       });
   }, [userText]);
 
-// sign out 
+  // sign out
   const signout = () => {
     signOut(auth);
-  }
+  };
 
   return (
     <div className="bg-black ">
@@ -62,7 +76,12 @@ const Home = () => {
           </h1>
         </div>
         <div className="ml-auto m-3">
-          <button onClick={signout} className="text-white btn btn-sm">sign out</button>
+          <button onClick={signout} className="text-white btn btn-sm">
+            sign out
+          </button>
+          <Link to={"/dashboard"} className="btn btn-sm">
+            Drower
+          </Link>
         </div>
       </div>
       <div className=" h-[600px] lg:mx-10 mx-3 p-1 rounded-xl scroll">
@@ -85,9 +104,11 @@ const Home = () => {
             className="w-full  bg-slate-800 px-5 py-3 rounded-xl border-2 border-white text-white"
             placeholder="write text ...."
             name="text"
+            onKeyPress={keys}
           />
           <input
             type="submit"
+            id="submit"
             className="bg-slate-500 p-2 rounded-xl h-10 ml-2 border-white border-2"
             value={"SEND"}
           />

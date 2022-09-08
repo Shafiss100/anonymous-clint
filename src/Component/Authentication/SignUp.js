@@ -21,7 +21,7 @@ const SignUp = () => {
     const displayName = event.target.name.value;
     await createUserWithEmailAndPassword(email, password);
     await updateProfile({ displayName });
-    await  fetch("http://localhost:5000/user", {
+    await fetch("https://ancient-wildwood-82819.herokuapp.com/user", {
       method: "POST",
       body: JSON.stringify({
         displayName: displayName,
@@ -31,7 +31,7 @@ const SignUp = () => {
         "Content-type": "application/json; charset=UTF-8",
       },
     });
-    navigate("/")
+    navigate("/");
   };
   return (
     <form className="bg-slate-500" onSubmit={signup}>
